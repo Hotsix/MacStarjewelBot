@@ -1,0 +1,288 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A768BFE0139E9C8C0034D369 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A768BFDF139E9C8C0034D369 /* Cocoa.framework */; };
+		A768BFEA139E9C8C0034D369 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A768BFE8139E9C8C0034D369 /* InfoPlist.strings */; };
+		A768BFED139E9C8C0034D369 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A768BFEC139E9C8C0034D369 /* main.m */; };
+		A768BFF0139E9C8C0034D369 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A768BFEE139E9C8C0034D369 /* Credits.rtf */; };
+		A768BFF3139E9C8C0034D369 /* MacStarjewelBotAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A768BFF2139E9C8C0034D369 /* MacStarjewelBotAppDelegate.m */; };
+		A768BFF6139E9C8C0034D369 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A768BFF4139E9C8C0034D369 /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A768BFDB139E9C8C0034D369 /* MacStarjewelBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacStarjewelBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A768BFDF139E9C8C0034D369 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		A768BFE2139E9C8C0034D369 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		A768BFE3139E9C8C0034D369 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A768BFE4139E9C8C0034D369 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A768BFE7139E9C8C0034D369 /* MacStarjewelBot-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacStarjewelBot-Info.plist"; sourceTree = "<group>"; };
+		A768BFE9139E9C8C0034D369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A768BFEB139E9C8C0034D369 /* MacStarjewelBot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MacStarjewelBot-Prefix.pch"; sourceTree = "<group>"; };
+		A768BFEC139E9C8C0034D369 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A768BFEF139E9C8C0034D369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		A768BFF1139E9C8C0034D369 /* MacStarjewelBotAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacStarjewelBotAppDelegate.h; sourceTree = "<group>"; };
+		A768BFF2139E9C8C0034D369 /* MacStarjewelBotAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacStarjewelBotAppDelegate.m; sourceTree = "<group>"; };
+		A768BFF5139E9C8C0034D369 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A768BFD8139E9C8C0034D369 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A768BFE0139E9C8C0034D369 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A768BFD0139E9C8C0034D369 = {
+			isa = PBXGroup;
+			children = (
+				A768BFE5139E9C8C0034D369 /* MacStarjewelBot */,
+				A768BFDE139E9C8C0034D369 /* Frameworks */,
+				A768BFDC139E9C8C0034D369 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A768BFDC139E9C8C0034D369 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A768BFDB139E9C8C0034D369 /* MacStarjewelBot.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A768BFDE139E9C8C0034D369 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A768BFDF139E9C8C0034D369 /* Cocoa.framework */,
+				A768BFE1139E9C8C0034D369 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A768BFE1139E9C8C0034D369 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A768BFE2139E9C8C0034D369 /* AppKit.framework */,
+				A768BFE3139E9C8C0034D369 /* CoreData.framework */,
+				A768BFE4139E9C8C0034D369 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		A768BFE5139E9C8C0034D369 /* MacStarjewelBot */ = {
+			isa = PBXGroup;
+			children = (
+				A768BFF1139E9C8C0034D369 /* MacStarjewelBotAppDelegate.h */,
+				A768BFF2139E9C8C0034D369 /* MacStarjewelBotAppDelegate.m */,
+				A768BFF4139E9C8C0034D369 /* MainMenu.xib */,
+				A768BFE6139E9C8C0034D369 /* Supporting Files */,
+			);
+			path = MacStarjewelBot;
+			sourceTree = "<group>";
+		};
+		A768BFE6139E9C8C0034D369 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A768BFE7139E9C8C0034D369 /* MacStarjewelBot-Info.plist */,
+				A768BFE8139E9C8C0034D369 /* InfoPlist.strings */,
+				A768BFEB139E9C8C0034D369 /* MacStarjewelBot-Prefix.pch */,
+				A768BFEC139E9C8C0034D369 /* main.m */,
+				A768BFEE139E9C8C0034D369 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A768BFDA139E9C8C0034D369 /* MacStarjewelBot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A768BFF9139E9C8C0034D369 /* Build configuration list for PBXNativeTarget "MacStarjewelBot" */;
+			buildPhases = (
+				A768BFD7139E9C8C0034D369 /* Sources */,
+				A768BFD8139E9C8C0034D369 /* Frameworks */,
+				A768BFD9139E9C8C0034D369 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacStarjewelBot;
+			productName = MacStarjewelBot;
+			productReference = A768BFDB139E9C8C0034D369 /* MacStarjewelBot.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A768BFD2139E9C8C0034D369 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "SyncByte Solutions";
+			};
+			buildConfigurationList = A768BFD5139E9C8C0034D369 /* Build configuration list for PBXProject "MacStarjewelBot" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A768BFD0139E9C8C0034D369;
+			productRefGroup = A768BFDC139E9C8C0034D369 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A768BFDA139E9C8C0034D369 /* MacStarjewelBot */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A768BFD9139E9C8C0034D369 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A768BFEA139E9C8C0034D369 /* InfoPlist.strings in Resources */,
+				A768BFF0139E9C8C0034D369 /* Credits.rtf in Resources */,
+				A768BFF6139E9C8C0034D369 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A768BFD7139E9C8C0034D369 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A768BFED139E9C8C0034D369 /* main.m in Sources */,
+				A768BFF3139E9C8C0034D369 /* MacStarjewelBotAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A768BFE8139E9C8C0034D369 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A768BFE9139E9C8C0034D369 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A768BFEE139E9C8C0034D369 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A768BFEF139E9C8C0034D369 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		A768BFF4139E9C8C0034D369 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A768BFF5139E9C8C0034D369 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A768BFF7139E9C8C0034D369 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A768BFF8139E9C8C0034D369 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A768BFFA139E9C8C0034D369 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MacStarjewelBot/MacStarjewelBot-Prefix.pch";
+				INFOPLIST_FILE = "MacStarjewelBot/MacStarjewelBot-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A768BFFB139E9C8C0034D369 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MacStarjewelBot/MacStarjewelBot-Prefix.pch";
+				INFOPLIST_FILE = "MacStarjewelBot/MacStarjewelBot-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A768BFD5139E9C8C0034D369 /* Build configuration list for PBXProject "MacStarjewelBot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A768BFF7139E9C8C0034D369 /* Debug */,
+				A768BFF8139E9C8C0034D369 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A768BFF9139E9C8C0034D369 /* Build configuration list for PBXNativeTarget "MacStarjewelBot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A768BFFA139E9C8C0034D369 /* Debug */,
+				A768BFFB139E9C8C0034D369 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A768BFD2139E9C8C0034D369 /* Project object */;
+}

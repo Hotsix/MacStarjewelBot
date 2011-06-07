@@ -13,13 +13,13 @@
 		A768BFF0139E9C8C0034D369 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A768BFEE139E9C8C0034D369 /* Credits.rtf */; };
 		A768BFF3139E9C8C0034D369 /* MacStarjewelBotAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A768BFF2139E9C8C0034D369 /* MacStarjewelBotAppDelegate.m */; };
 		A768BFF6139E9C8C0034D369 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A768BFF4139E9C8C0034D369 /* MainMenu.xib */; };
+		A768C016139EAED40034D369 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A768C015139EAED40034D369 /* ApplicationServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A768BFDB139E9C8C0034D369 /* MacStarjewelBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacStarjewelBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A768BFDF139E9C8C0034D369 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A768BFE2139E9C8C0034D369 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		A768BFE3139E9C8C0034D369 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A768BFE4139E9C8C0034D369 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A768BFE7139E9C8C0034D369 /* MacStarjewelBot-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacStarjewelBot-Info.plist"; sourceTree = "<group>"; };
 		A768BFE9139E9C8C0034D369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -29,6 +29,7 @@
 		A768BFF1139E9C8C0034D369 /* MacStarjewelBotAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacStarjewelBotAppDelegate.h; sourceTree = "<group>"; };
 		A768BFF2139E9C8C0034D369 /* MacStarjewelBotAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacStarjewelBotAppDelegate.m; sourceTree = "<group>"; };
 		A768BFF5139E9C8C0034D369 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		A768C015139EAED40034D369 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A768C016139EAED40034D369 /* ApplicationServices.framework in Frameworks */,
 				A768BFE0139E9C8C0034D369 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,20 +65,12 @@
 		A768BFDE139E9C8C0034D369 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A768C015139EAED40034D369 /* ApplicationServices.framework */,
+				A768BFE2139E9C8C0034D369 /* AppKit.framework */,
+				A768BFE4139E9C8C0034D369 /* Foundation.framework */,
 				A768BFDF139E9C8C0034D369 /* Cocoa.framework */,
-				A768BFE1139E9C8C0034D369 /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A768BFE1139E9C8C0034D369 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A768BFE2139E9C8C0034D369 /* AppKit.framework */,
-				A768BFE3139E9C8C0034D369 /* CoreData.framework */,
-				A768BFE4139E9C8C0034D369 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		A768BFE5139E9C8C0034D369 /* MacStarjewelBot */ = {
@@ -211,7 +205,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				GCC_WARN_UNUSED_VARIABLE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -226,7 +220,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				GCC_WARN_UNUSED_VARIABLE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 			};
@@ -281,6 +275,7 @@
 				A768BFFB139E9C8C0034D369 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

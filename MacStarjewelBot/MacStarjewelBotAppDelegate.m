@@ -21,7 +21,6 @@
     
     [NSEvent addGlobalMonitorForEventsMatchingMask:NSRightMouseDownMask handler:^(NSEvent *event){
         
-        
         if([loopTimer isValid]) {
             NSLog(@"Stopping loopTimer...");
             [loopTimer invalidate];
@@ -37,44 +36,46 @@
 
 - (void) TakeScreenshot
 {
+
+    // Search WindowList for StarCraft II window
+    CGWindowID winID = 0;
+    CFArrayRef windowList = CGWindowListCopyWindowInfo( kCGWindowListExcludeDesktopElements, kCGNullWindowID );
+ 
+    for (NSMutableDictionary *entry in (NSArray *)windowList) {
+        NSString *currentWindow = [entry objectForKey:(id)kCGWindowName];
+        if ((currentWindow != NULL) && ([currentWindow isEqualToString:@"StarCraft II"])) {
+            // Get windowID and window origins
+            winID = [[entry objectForKey:(id)kCGWindowNumber] intValue];
+            CGRectMakeWithDictionaryRepresentation((CFDictionaryRef)[entry objectForKey:(id)kCGWindowBounds], &bounds);
+            NSLog(@"StarCraft II window ID: %i",winID);
+            break;
+
+        } 
+    }
+
+    CFRelease(windowList);
+
+    if(!winID) {
+        NSLog(@"StarCraft II window not found!");
+        return;
+    }
+    CGRect rect = CGRectNull;
     
-    
-    CGImageRef image = CGDisplayCreateImage(kCGDirectMainDisplay);
-    
+    //IMPORVE: grabs the whole window but only the StarJewel playfield is required
+    CGImageRef image = CGWindowListCreateImage(rect, 8, winID, kCGWindowImageBoundsIgnoreFraming);
     if(image == NULL) {
         NSLog(@"ERROR: Couldn't create display image");
         goto Error;
     }
-    screenWidth = CGImageGetWidth(image);
-    screenHeight = CGImageGetHeight(image);
-    size_t bytesPerRow = CGImageGetBytesPerRow(image);
-    //size_t bytesPerRow = CGDisplayBytesPerRow(kCGDirectMainDisplay);
-    //UInt pixelPerRow = bytesPerRow/4;
-    //UInt numPixels = pixelPerRow * thisHeight;
+    CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(image));
     
-    NSLog(@"Display resolution: %zu x %zu, bytesPerRow: %zu", screenWidth, screenHeight, bytesPerRow);
+    UInt8 *bitmap = (UInt8 *)CFDataGetBytePtr(data);
     
-    
-    // Create the bitmap context
-    CGContextRef cgctx = [AppDelegate CreateARGBBitmapContext:image];
-    if (cgctx == NULL) {
-        NSLog(@"ERROR: Couldn't create bitmap context");
-        goto Error;
-    }
-    
-    // Get image width, height. We'll use the entire image.
-    CGRect rect = CGRectMake(0, 0, screenWidth, screenHeight); 
-    
-    // Draw the image to the bitmap context. Once we draw, the memory 
-    // allocated for the context for rendering will then contain the 
-    // raw image data in the specified color space.
-    CGContextDrawImage(cgctx, rect, image); 
-    
-    // Now we can get a pointer to the image data associated with the bitmap
-    // context.
-    UInt8 *bitmap = CGBitmapContextGetData(cgctx);
-    //    UInt8 *screenBuf = CGDisplayBaseAddress(kCGDirectMainDisplay);
-    
+    imageWidth =  CGImageGetWidth(image);
+    imageHeight = CGImageGetHeight(image);
+       
+    NSLog(@"window size: %zu x %zu", imageWidth, imageHeight);
+  
     if (bitmap != NULL) {
         
         if(offset == 0)
@@ -89,77 +90,12 @@
         }
         
     }    
-    
-    // When finished, release the context
-    CGContextRelease(cgctx); 
-    // Free image data memory for the context
-    if (bitmap)
-        free(bitmap);
-    
+   
 Error:    
 	CGImageRelease(image);
-    
+    CFRelease(data);
 }
 
-
-+(CGContextRef) CreateARGBBitmapContext:(CGImageRef)inImage
-{
-    CGContextRef    context = NULL;
-    CGColorSpaceRef colorSpace;
-    void *          bitmapData;
-    int             bitmapByteCount;
-    int             bitmapBytesPerRow;
-    
-    // Get image width, height. We'll use the entire image.
-    size_t pixelsWide = CGImageGetWidth(inImage);
-    size_t pixelsHigh = CGImageGetHeight(inImage);
-    
-    // Declare the number of bytes per row. Each pixel in the bitmap in this
-    // example is represented by 4 bytes; 8 bits each of red, green, blue, and
-    // alpha.
-    bitmapBytesPerRow   = (pixelsWide * 4);
-    bitmapByteCount     = (bitmapBytesPerRow * pixelsHigh);
-    
-    // Use the generic RGB color space.
-    //colorSpace = CGColorSpaceCreateDeviceRGB();
-    colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-    if (colorSpace == NULL)
-    {
-        NSLog(@"Error allocating color space\n");
-        return NULL;
-    }
-    
-    // Allocate memory for image data. This is the destination in memory
-    // where any drawing to the bitmap context will be rendered.
-    bitmapData = malloc( bitmapByteCount );
-    if (bitmapData == NULL) 
-    {
-        NSLog(@"Memory not allocated!");
-        CGColorSpaceRelease( colorSpace );
-        return NULL;
-    }
-    
-    // Create the bitmap context. We want pre-multiplied ARGB, 8-bits 
-    // per component. Regardless of what the source image format is 
-    // (CMYK, Grayscale, and so on) it will be converted over to the format
-    // specified here by CGBitmapContextCreate.
-    context = CGBitmapContextCreate (bitmapData,
-                                     pixelsWide,
-                                     pixelsHigh,
-                                     8,      // bits per component
-                                     bitmapBytesPerRow,
-                                     colorSpace,
-                                     kCGImageAlphaPremultipliedFirst);
-    if (context == NULL) {
-        free (bitmapData);
-        NSLog(@"Context not created!");
-    }
-    
-    // Make sure and release colorspace before returning
-    CGColorSpaceRelease( colorSpace );
-    
-    return context;
-}
 
 
 -(UInt) FindPlayfield:(UInt8 *)bitmap
@@ -168,18 +104,21 @@ Error:
     unsigned char r, g, b;
     unsigned short numCheck = 0;
     
-    for(y = 0; y < 1024/2; y++) {
+    for(y = 0; y < imageHeight; y++) {
         
-        for(x = 0; x < 1280; x++) {
+        for(x = 0; x < imageWidth; x++) {
             
             toffset2 = 0;
             numCheck = 0;
             for(z = 0; z < 8; z++) {
                 
-                r = bitmap[toffset+toffset2+1];
-                g = bitmap[toffset+toffset2+2];
-                b = bitmap[toffset+toffset2+3];
-                
+                // byte swapped
+                r = bitmap[toffset+toffset2+2];
+                g = bitmap[toffset+toffset2+1];
+                b = bitmap[toffset+toffset2+0];
+
+
+                // find grey pattern background of gem playfield
                 if( (z&1) == 0) {
                     if(r != 0x2c || g != 0x2c || b != 0x2b)
                         break;
@@ -198,7 +137,7 @@ Error:
             }
             
             if(numCheck == 7) {
-                NSLog(@"position: x=%i, y=%i",x,(1024-y));
+                NSLog(@"position: x=%i, y=%i",x,y);
                 arFieldPos[0] = x;
                 arFieldPos[1] = y;
                 return toffset;
@@ -221,16 +160,16 @@ Error:
     
     for(row = 0; row < 8; row++) {
         
-        toffset2 = (row*1280*50*4);
+        toffset2 = (row*imageWidth*50*4);
         
         for(col = 0; col < 8; col++) {
             // Get approximate center of current jewel            
-            toffset = offset+(25*4)+(25*1280*4)+(col*50*4)+toffset2;
+            toffset = offset+(25*4)+(25*imageWidth*4)+(col*50*4)+toffset2;
             z = 0;
         CheckAgain:
-            r = bitmap[toffset+1];
-            g = bitmap[toffset+2];
-            b = bitmap[toffset+3];
+            r = bitmap[toffset+2];
+            g = bitmap[toffset+1];
+            b = bitmap[toffset+0];
             rf = r/255.0f;
             gf = g/255.0f;
             bf = b/255.0f;
@@ -446,10 +385,10 @@ Error:
     CGEventRef newEvent;
     int posX1, posY1, posX2, posY2;
     
-    posX1 = arFieldPos[0]+(x1*50)+25;
-    posY1 = arFieldPos[1]+(y1*50)+25;
-    posX2 = arFieldPos[0]+(x2*50)+25;
-    posY2 = arFieldPos[1]+(y2*50)+25;
+    posX1 = bounds.origin.x+arFieldPos[0]+(x1*50)+25;
+    posY1 = bounds.origin.y+arFieldPos[1]+(y1*50)+25;
+    posX2 = bounds.origin.x+arFieldPos[0]+(x2*50)+25;
+    posY2 = bounds.origin.y+arFieldPos[1]+(y2*50)+25;
     
     CGPoint newPos1 = CGPointMake(posX1, posY1);
     CGPoint newPos2 = CGPointMake(posX2, posY2);
@@ -457,13 +396,6 @@ Error:
     NSLog(@"swaptiles: %i,%i - %i,%i",y1,x1,y2,x2);
     
     
-    /*    
-     newEvent = CGEventCreateMouseEvent(NULL, kCGEventMouseMoved, newPos1, kCGMouseButtonLeft);
-     CGEventPost(kCGHIDEventTap, newEvent);
-     sleep(1);
-     newEvent = CGEventCreateMouseEvent(NULL, kCGEventMouseMoved, newPos2, kCGMouseButtonLeft);
-     CGEventPost(kCGHIDEventTap, newEvent);
-     */
     newEvent = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseDown, newPos1, kCGMouseButtonLeft);
     CGEventPost(kCGHIDEventTap, newEvent);
     usleep(10000);
@@ -541,7 +473,7 @@ Done:
 {
     
     
-    loopTimer = [NSTimer scheduledTimerWithTimeInterval: 0.8 
+    loopTimer = [NSTimer scheduledTimerWithTimeInterval: 0.5 
                                                  target: self 
                                                selector:@selector(TakeScreenshot) 
                                                userInfo: nil 

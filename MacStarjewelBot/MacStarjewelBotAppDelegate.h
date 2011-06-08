@@ -21,11 +21,12 @@
     
 @public
     UInt offset;
-    size_t screenWidth;
-    size_t screenHeight;
+    size_t imageWidth;
+    size_t imageHeight;
     unsigned char arField[8][8];
     int arFieldPos[2];
     NSTimer *loopTimer;
+    CGRect bounds;
 }
 @property (assign) IBOutlet NSWindow *window;
 
@@ -34,7 +35,6 @@
 -(IBAction)StartCheck:(id)sender;
 
 -(void) TakeScreenshot;
-+(CGContextRef) CreateARGBBitmapContext:(CGImageRef)inImage;
 -(UInt) FindPlayfield:(UInt8 *)bitmap;
 -(void) GetJewels:(UInt8 *)bitmap;
 -(void) FindCombo;

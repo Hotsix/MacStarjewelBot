@@ -61,7 +61,7 @@
     }
     CGRect rect = CGRectNull;
     
-    //IMPORVE: grabs the whole window but only the StarJewel playfield is required
+    //IMPROVE: grabs the whole window but requires only the StarJewel playfield
     CGImageRef image = CGWindowListCreateImage(rect, 8, winID, kCGWindowImageBoundsIgnoreFraming);
     if(image == NULL) {
         NSLog(@"ERROR: Couldn't create display image");
@@ -80,6 +80,7 @@
         
         if(offset == 0)
             offset = [self FindPlayfield:bitmap];
+        
         if(offset == 0)
             NSLog(@"No playfield found!");
         else {
@@ -104,9 +105,10 @@ Error:
     unsigned char r, g, b;
     unsigned short numCheck = 0;
     
-    for(y = 0; y < imageHeight; y++) {
+    for(y = 0; y < imageHeight/3; y++) {
         
-        for(x = 0; x < imageWidth; x++) {
+        toffset += imageWidth/2*4;     
+        for(x = imageWidth/2; x < imageWidth; x++) {
             
             toffset2 = 0;
             numCheck = 0;

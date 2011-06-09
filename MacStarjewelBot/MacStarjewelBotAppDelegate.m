@@ -4,15 +4,13 @@
 //
 //  Created by HotSix on 04.06.2011
 //  
-//
+//  Version 0.9.1
 
 #import "MacStarjewelBotAppDelegate.h"
 
 @implementation AppDelegate
 
 @synthesize window;
-
-
 
 
 
@@ -59,18 +57,22 @@
         NSLog(@"StarCraft II window not found!");
         return;
     }
-    CGRect rect = CGRectNull;
+
+    CGRect rect = CGRectMake(bounds.origin.x+600,bounds.origin.y+92,400,400);
     
-    //IMPROVE: grabs the whole window but requires only the StarJewel playfield
+    // grab StarJewel playfield part of sc2 window
     CGImageRef image = CGWindowListCreateImage(rect, 8, winID, kCGWindowImageBoundsIgnoreFraming);
     if(image == NULL) {
         NSLog(@"ERROR: Couldn't create display image");
         goto Error;
     }
+
+    
     CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(image));
     
     UInt8 *bitmap = (UInt8 *)CFDataGetBytePtr(data);
-    
+  
+
     imageWidth =  CGImageGetWidth(image);
     imageHeight = CGImageGetHeight(image);
        
@@ -78,13 +80,25 @@
   
     if (bitmap != NULL) {
         
-        if(offset == 0)
+        if(offset == 0) {
             offset = [self FindPlayfield:bitmap];
-        
+/*
+            // just for testing....save screen shot of the area and save to desktop - disabled here
+            if(screenDone == 0) {
+                NSString* path = [@"~/Desktop/sc-screen.png" stringByExpandingTildeInPath];
+                NSURL *outURL = [[NSURL alloc] initFileURLWithPath:path];
+
+                CGImageDestinationRef dr = CGImageDestinationCreateWithURL ((CFURLRef)outURL, kUTTypePNG , 1, NULL);
+                CGImageDestinationAddImage(dr, image, NULL);
+                CGImageDestinationFinalize(dr);
+                screenDone = 1;
+            }
+*/
+        }
         if(offset == 0)
             NSLog(@"No playfield found!");
         else {
-            NSLog(@"Playfield found at offset: 0x%08x",offset);
+            //NSLog(@"Playfield found!");
             [self GetJewels:bitmap];
             [self FindCombo];
             
@@ -95,67 +109,61 @@
 Error:    
 	CGImageRelease(image);
     CFRelease(data);
+    
 }
 
 
 
 -(UInt) FindPlayfield:(UInt8 *)bitmap
 {
-    UInt x, y, z, toffset = 0, toffset2;
-    unsigned char r, g, b;
+    UInt z, toffset;
+    short r, g, b, grey;
     unsigned short numCheck = 0;
-    
-    for(y = 0; y < imageHeight/3; y++) {
+                
+    toffset = imageWidth*3*4+8;
+
+    for(z = 0; z < 8; z++) {
         
-        toffset += imageWidth/2*4;     
-        for(x = imageWidth/2; x < imageWidth; x++) {
-            
-            toffset2 = 0;
-            numCheck = 0;
-            for(z = 0; z < 8; z++) {
-                
-                // byte swapped
-                r = bitmap[toffset+toffset2+2];
-                g = bitmap[toffset+toffset2+1];
-                b = bitmap[toffset+toffset2+0];
-
-
-                // find grey pattern background of gem playfield
-                if( (z&1) == 0) {
-                    if(r != 0x2c || g != 0x2c || b != 0x2b)
-                        break;
-                    else 
-                        numCheck++;
-                } else {
-                    if(r != 0x19 || g != 0x19 || b != 0x18)
-                        break;
-                    else
-                        numCheck++;                    
-                }
-                
-                // Size of one juwelfield in bytes
-                toffset2 += 50*4;
-                
-            }
-            
-            if(numCheck == 7) {
-                NSLog(@"position: x=%i, y=%i",x,y);
-                arFieldPos[0] = x;
-                arFieldPos[1] = y;
-                return toffset;
-                
-            }
-            toffset += 4;
-            
+        r = bitmap[toffset+2];
+        g = bitmap[toffset+1];
+        b = bitmap[toffset+0];
+        
+        grey = (r+g+b)/3;
+        //NSLog(@"grey: 0x%02x",grey);
+        // find grey pattern background of gem playfield
+        if( (z&1) == 0) {
+            if(grey < 0x25 || grey > 0x30)
+                break;
+            else 
+                numCheck++;
+        } else {
+            if(grey < 0x15 || grey > 0x20)
+                break;
+            else
+                numCheck++;                    
         }
         
+        // Size of one juwelfield in bytes
+        toffset += 50*4;
+        
     }
-    return 0;
+    
+    if(numCheck == 8) {
+        
+        arFieldPos[0] = 1;
+        arFieldPos[1] = 1;
+        return 4;
+        
+    } else
+        return 0;
+            
+
 }
 
 -(void) GetJewels:(UInt8 *)bitmap
 {
-    unsigned char r, g, b, row, col, z;
+    unsigned char row, col, z;
+    int r, g, b;
     float rf,gf,bf;
     
     UInt toffset, toffset2;
@@ -166,23 +174,32 @@ Error:
         
         for(col = 0; col < 8; col++) {
             // Get approximate center of current jewel            
-            toffset = offset+(25*4)+(25*imageWidth*4)+(col*50*4)+toffset2;
-            z = 0;
-        CheckAgain:
-            r = bitmap[toffset+2];
-            g = bitmap[toffset+1];
-            b = bitmap[toffset+0];
+            toffset = offset+(25*imageWidth*4)+(col*50*4)+toffset2;
+           
+            r = 0;
+            g = 0;
+            b = 0;
+            
+            // read center line of jewel and sum r,g,b values
+            for(z=0; z < 50; z++) {
+                r += bitmap[toffset+2];
+                g += bitmap[toffset+1];
+                b += bitmap[toffset+0];
+                toffset += 4;
+            }
+            
+            //get r,g,b average and convert RGB to HVS color 
+            r = r/25;
+            g = g/25;
+            b = b/25;
+            
             rf = r/255.0f;
             gf = g/255.0f;
             bf = b/255.0f;
             
             //printf("Jewel %i-%i: ",(row+1),(col+1));
             arField[row][col] = [self RGBtoHSV:rf:gf:bf];
-            if(arField[row][col] == 0 && z < 3) {
-                toffset +=4;
-                z++;
-                goto CheckAgain;
-            }
+           
             // NSLog(@"Jewel %i-%i: %02x %02x %02x",(row+1),(col+1),r,g,b);
             
         }
@@ -192,7 +209,7 @@ Error:
 }
 
 
-
+// IMPROVE ME! Need to check for 4er, 5er gems and cross matches
 -(void) FindCombo
 {
     short x,y;
@@ -387,15 +404,15 @@ Error:
     CGEventRef newEvent;
     int posX1, posY1, posX2, posY2;
     
-    posX1 = bounds.origin.x+arFieldPos[0]+(x1*50)+25;
-    posY1 = bounds.origin.y+arFieldPos[1]+(y1*50)+25;
-    posX2 = bounds.origin.x+arFieldPos[0]+(x2*50)+25;
-    posY2 = bounds.origin.y+arFieldPos[1]+(y2*50)+25;
+    posX1 = bounds.origin.x+600+arFieldPos[0]+(x1*50)+25;
+    posY1 = bounds.origin.y+92+arFieldPos[1]+(y1*50)+25;
+    posX2 = bounds.origin.x+600+arFieldPos[0]+(x2*50)+25;
+    posY2 = bounds.origin.y+92+arFieldPos[1]+(y2*50)+25;
     
     CGPoint newPos1 = CGPointMake(posX1, posY1);
     CGPoint newPos2 = CGPointMake(posX2, posY2);
     
-    NSLog(@"swaptiles: %i,%i - %i,%i",y1,x1,y2,x2);
+    NSLog(@"swap tiles: %i,%i - %i,%i",y1,x1,y2,x2);
     
     
     newEvent = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseDown, newPos1, kCGMouseButtonLeft);
@@ -411,7 +428,8 @@ Error:
     usleep(10000);
     newEvent = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseUp, newPos2, kCGMouseButtonLeft);
     CGEventPost(kCGHIDEventTap, newEvent);
-    NSLog(@"Event posted");
+//    NSLog(@"Event posted");
+
     return;
 }
 
@@ -446,28 +464,29 @@ Error:
 		h += 360;
 Done:
     if(s < 0.1) {
-        //printf("grau\n");
+        //printf("GREY\n");
         c = 1;
-    } else if(h > 270 && h < 290) {
-        //printf("lila\n");
+    } else if(h > 280 && h < 290) {
+        //printf("PURPLE\n");
         c = 2;
-    } else if(h > 100 && h < 120) {
-        //printf("grün\n");
+    } else if(h > 100 && h < 110) {
+        //printf("GREEN\n");
         c = 3;
-    } else if(h > 170 && h < 185) {
-        //printf("gelb\n");
+    } else if(h > 60 && h < 80) {
+        //printf("YELLOW\n");
         c = 4;
-    } else if(h > 185 && h < 210) {
-        //printf("blau\n");
+    } else if(h > 190 && h < 210) {
+        //printf("BLUE\n");
         c = 5;
     } else if(h < 20) {
-        //printf("rot\n");
+        //printf("RED\n");
         c = 6;
     }
-    if(c == 0) {
-        //printf("UNKNOWN\n");
-        //printf("H: %f, S: %f, V: %f\n",h,s,v);
-    }
+//    if(c == 0) {
+//        printf("UNKNOWN\n");
+//        printf("H: %f, S: %f, V: %f\n",h,s,v);
+//    }
+    
     return c;
 }
 
@@ -475,12 +494,11 @@ Done:
 {
     
     
-    loopTimer = [NSTimer scheduledTimerWithTimeInterval: 0.5 
+    loopTimer = [NSTimer scheduledTimerWithTimeInterval: 0.6 
                                                  target: self 
                                                selector:@selector(TakeScreenshot) 
                                                userInfo: nil 
                                                 repeats: YES];
-    
-    
+ 
 }
 @end

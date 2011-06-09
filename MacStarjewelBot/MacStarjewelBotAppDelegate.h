@@ -23,10 +23,12 @@
     UInt offset;
     size_t imageWidth;
     size_t imageHeight;
+    size_t jewelWidth;
     unsigned char arField[8][8];
     int arFieldPos[2];
     NSTimer *loopTimer;
     CGRect bounds;
+    size_t screenDone;
 }
 @property (assign) IBOutlet NSWindow *window;
 
